@@ -5,6 +5,7 @@
 
 CCF-A类会议: ACM Multimedia (MM) 2024
 
+
 代码发布日期: 2024年
 
 GitHub仓库: https://github.com/Ziwei-Zheng/EfficientGEBD
@@ -30,16 +31,6 @@ GitHub仓库: https://github.com/Ziwei-Zheng/EfficientGEBD
 
 构建高效模型家族：引入视频域主干进行联合时空建模，形成EfficientGEBD模型家族
 
-论文方法流程图
-https://report_images/flowchart.png
-
-创新点标记说明：
-
-创新点1（蓝色）：去除冗余组件，简化模型架构
-
-创新点2（橙色）：优化时空学习策略，提高注意力效率
-
-创新点3（绿色）：引入视频主干网络，实现联合时空建模
 
 3. 论文公式和程序代码对照表
 https://report_images/code_table.png
@@ -50,6 +41,7 @@ https://report_images/code_table.png
 特征融合与预测	model/pred_head.py	30-75	特征融合和边界预测实现
 损失函数	loss/loss.py	15-35	二分类交叉熵损失实现
 数据预处理	dataset/GEBDDataset.py	60-150	数据集加载和预处理流程
+
 4. 安装与运行说明
 环境依赖
 bash
@@ -87,6 +79,7 @@ python tools/test.py \
     --config configs/kinetics_gebd_config.yaml \
     --checkpoint weights/efficientgebd_model.pth \
     --data_path data/kinetics_gebd
+
 2. 模型训练：
 
 bash
@@ -95,6 +88,7 @@ python tools/train.py \
     --train_data data/kinetics_gebd/train.jsonl \
     --val_data data/kinetics_gebd/val.jsonl \
     --work_dir outputs/
+
 3. 单视频推理：
 
 bash
@@ -102,10 +96,11 @@ python demo.py \
     --video_path examples/sample_video.mp4 \
     --checkpoint weights/efficientgebd_model.pth \
     --output_dir results/
-5. 测试/运行结果
-5.1 性能对比结果
-https://report_images/performance_comparison.png
 
+5. 测试/运行结果
+
+5.1 性能对比结果
+![替代文本](./report_images/性能对比图.png)
 实验结果数据：
 
 EfficientGEBD: F1@0.05 = 0.829, 推理速度 = 285 FPS
@@ -117,7 +112,8 @@ TCHE-L: F1@0.05 = 0.812, 推理速度 = 32 FPS
 BMN-OC: F1@0.05 = 0.756, 推理速度 = 45 FPS
 
 5.2 训练过程监控
-https://report_images/training_curve.png
+
+![替代文本](./report_images/训练曲线图.png)
 
 训练过程分析：
 
@@ -128,9 +124,16 @@ https://report_images/training_curve.png
 损失函数稳定下降，无过拟合现象
 
 5.3 事件检测可视化
-https://report_images/detection_visualization.png
+![替代文本](./report_images/事件检测可视化.png)
+
+5.4 速度提升总结
+![替代文本](./report_images/速度提升总结.png)
+
+5.5 综合测试结果
+![替代文本](./report_images/综合测试结果.png)
 
 检测效果：
+![替代文本](./report_images/综合测试结果.png)
 
 成功检测出4个真实事件边界中的4个（召回率100%）
 
@@ -140,6 +143,7 @@ F1分数达到0.889，表现出良好的检测能力
 
 6. 论文公式对应的代码添加注释
 6.1 核心模型架构代码注释
+
 python
 # model/EfficientGEBD.py
 
@@ -184,6 +188,7 @@ class EfficientGEBD(nn.Module):
         
         return probs
 6.2 损失函数代码注释
+
 python
 # loss/loss.py
 
@@ -220,6 +225,7 @@ class BalancedBCELoss(nn.Module):
         
         return loss
 6.3 数据预处理代码注释
+
 python
 # dataset/GEBDDataset.py
 
@@ -273,7 +279,9 @@ class GEBDDataset(Dataset):
         
         return video_tensor, annotation
 7. 项目总结与复现体会
+
 7.1 项目技术亮点
+
 架构设计创新：通过系统性的架构分析，识别并消除了现有模型中的冗余组件
 
 效率显著提升：在保持高精度的同时，推理速度相比基线模型提升6.3倍
@@ -281,6 +289,7 @@ class GEBDDataset(Dataset):
 工程实现完整：代码结构清晰，文档完善，易于复现和扩展
 
 7.2 复现过程总结
+
 成功复现的关键步骤：
 
 环境配置：严格按照requirements.txt安装依赖，确保版本兼容性
@@ -306,6 +315,7 @@ class GEBDDataset(Dataset):
 解决方案：减小batch size，使用梯度累积技术
 
 7.3 代码贡献与扩展
+
 基于对项目的深入分析，提出以下改进建议：
 
 性能优化：
@@ -343,6 +353,6 @@ def train_with_amp(model, data_loader):
 
 实验结果分析与可视化技巧
 
-报告生成时间: 2024年11月28日
+报告时间: 2024年11月30日
 测试环境: Ubuntu 20.04, Python 3.8, PyTorch 1.11, CUDA 11.3
 硬件配置: NVIDIA RTX 3060 8GB, 32GB RAM
